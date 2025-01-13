@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>CS194-26 Project 5</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+
+				<!-- Facial Keypoint Detection with Neural Networks -->
+					<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right invert color0">
+						<div class="content">
+							<h1>Facial Keypoint Detection with Neural Networks</h1>
+
+							<p class="major">Varun Neal Srivastava</p>
+						</div>
+
+					</section>
+
+				<!-- Part 1: Single Point Detection -->
+				<section class="spotlight style1 orient-center content-align-center image-position-center onscroll-image-fade-in color0 invert" id="first">
+					<div class="content">
+						<h2>Part 1: Single Point Detection</h2>
+						<p> With the help of manually selected points from the <a href="https://web.archive.org/web/20210305094647/http://www2.imm.dtu.dk/~aam/datasets/datasets.html">
+							IMM Face Database</a>, we can turn keypoint selection into a regression problem. We train a basic convolutional network with three
+							convolutional layers, some MaxPools, and two fully connected layers to detect the "nose" keypoint of the face.
+						</p>
+					</div>
+					<div class="image">
+						<img src="out/nose.jpeg" alt="" />
+					</div>
+				</section>
+
+						<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>Manually chosen nose keypoints from the IMM Database, used for training:</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt1_groundtruth.jpeg" alt="Hellllo world" />
+						  </div>
+						</div>
+
+
+						<div class="banner style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+							<div class="content">
+								<h2>Training Process</h2>
+								<p> In order to achieve high accuracy, we trained the model for 20 epochs at a learning rate
+									of 0.005 with a batch size of 4. Convergence was unsteady but eventually the model
+								    achieved a validation loss below 0.002.</p>
+
+							</div>
+							<div class="image">
+								<img src="out/pt1_plot.jpeg" alt="" />
+							</div>
+						</div>
+
+
+						<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>The final results were imperfect. The model did better than just guessing the mean
+								  keypoint, but it still struggled on images where a face was turned away
+								  from the camera. Neural nets' predictions (red) and actual values (yellow):</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt1_validation.jpeg" alt="Hellllo world" />
+						  </div>
+						</div>
+
+
+				<!-- Part 2: Full Facial Keypoint Detection -->
+				<section class="spotlight style5 small orient-center content-align-center image-position-center onscroll-image-fade-in invert" id="first">
+						<div class="content">
+							<h2>Part 2: Full Facial Keypoint Detection</h2>
+							<p> We now trained the model on all of the facial keypoints. In order to reduce risk
+								of overfitting, images were augmented--rotated, cropped, and brightened (pictured
+								behind). </p>
+						</div>
+						<div class="image">
+							<img src="out/pt2_groundtruth.jpeg" alt="" />
+						</div>
+
+					</section>
+				<div class="banner style1 orient-right content-align-right image-position-center onscroll-image-fade-in invert color0" id="first">
+							<div class="content">
+								<h2>Model Details</h2>
+								<p> A larger architecture was needed to support more learned features. Drawing inspiriation
+									from the <a href="https://neurohive.io/en/popular-networks/vgg16/">VCG-16</a>
+									convolutional network, the model we used made use of doubled convolutional layers,
+									followed by pools. Finally, two fully connected layers predicted the 58*2=116 keypoint
+									features.</p>
+
+							</div>
+							<div class="image">
+							<img src="out/pt2_convs.jpeg" alt="" />
+						</div>
+						</div>
+
+				<div class="banner style1 orient-left content-align-left image-position-center onscroll-image-fade-in invert color0" id="first">
+							<div class="content">
+								<h2>Training Process</h2>
+								<p> A lower learning rate of 0.0005 as well as a very high number of epochs at 45 was
+									used to achieve strong convergence. A lower batch size at 4 was found to be
+									most helpful at reducing validation loss. Finally, a light (1e-7) weight decay was used
+									in the Adam optimizer. </p>
+							</div>
+							<div class="image">
+								<img src="out/pt2_plot.jpeg" alt="" />
+							</div>
+						</div>
+
+
+
+
+						<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>The final results were fairly good. The model did much better than predicting the mean face,
+								  and given the long training times, accuracy was fairly good. It is clear that the image augments
+								  made performance somewhat weaker, as the net tends to struggle on rotation images, as seen below.
+								  Neural nets' predictions (red) and actual values (yellow):</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt2_validation.jpeg" alt="" />
+						  </div>
+						</div>
+
+
+						<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>We are naturally curious as to what our model has learned. We visualize the model's
+							  first layer of features; e.g. the 32 3x3 kernels used in the first convolution (you may have to
+							  open images in a new tab to see all 32):</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt2_kernels1.jpeg" alt="" />
+						  </div>
+						</div>
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt2_kernels2.jpeg" alt="" />
+						  </div>
+						</div>
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt2_kernels3.jpeg" alt="" />
+						  </div>
+						</div>
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt2_kernels4.jpeg" alt="" />
+						  </div>
+						</div>
+				<!-- Part 3: Larger Datasets, Pretrained Models -->
+				<section class="spotlight style1 orient-right content-align-center image-position-center onscroll-image-fade-in color0 invert" id="first">
+					<div class="content">
+						<h2>Part 3: Larger Datasets, Pretrained Models</h2>
+						<p> Now we use data from the iBUG dataset, which is much larger that the IMM Face Database. Additionally,
+							we use the pre-trained ResNet-18 model, which, true to its name, boasts 18 powerful
+							 layers.
+						</p>
+					</div>
+					<div class="image">
+						<img src="out/pt3_juicer.jpeg" alt="" />
+					</div>
+				</section>
+
+
+						<div class="banner style1 orient-left content-align-left image-position-center onscroll-image-fade-in invert color0" id="first">
+							<div class="content">
+								<h2>Model & Training</h2>
+								<p> The ResNet-18 model was pre-trained, with the final fully-connected layer
+								being changed to output 68*2=136 features. From there, 50 additional epochs
+								at a learning rate of 8e-3 and a batch size of 12 were used to fine-tune the
+								model. </p>
+
+							</div>
+							<div class="image">
+								<img src="out/pt3_plot.jpeg" alt="" />
+							</div>
+						</div>
+
+
+						<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>This model learned features very deeply and performed extremely well on the validation set.
+							  Neural nets' predictions (red) and actual values (yellow):</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt3_validation.jpeg" alt="" />
+						  </div>
+						</div>
+
+						<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>Here is the model attempting to predict some images I gave it. It seems imperfect. I would
+							  owe this largely due to the fact that my images are cropped much larger than the bounding boxes
+							  in the training data (e.g. my images include more of the noise and neck). Some of the images,
+							  e.g. the first one, are also purposely quite strange (credit to painter Amanda Sage).</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt3_my_collection.jpeg" alt="" />
+						  </div>
+						</div>
+
+
+						<!-- Gallery -->
+							<div class="gallery style1 large">
+								<article>
+									<a href="lib/pencil_box.jpeg" class="image">
+										<img src="lib/pencil_box.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Original image of my pencil box. </h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pencil_box.jpeg" class="image">
+										<img src="out/pencil_box.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>Rectified with top of pencil box facing camera. </h3>
+									</div>
+								</article>
+
+
+							</div>
+
+
+
+				<!-- Part 4: Pixelwise Classification -->
+				<section class="spotlight style1 orient-right content-align-center image-position-center onscroll-image-fade-in color0 invert" id="first">
+					<div class="content">
+						<h2>Part 4: Pixelwise Classification</h2>
+						<p>We transform the regression into a classification problem! Instead of predicting which keypoint
+							belongs where, we assign each pixel in the image with the probability a given keypoint belongs there.
+							To do this, we convolve each keypoint with a Gaussian Kernel (size 21, std 10). This forms a 68 layer
+							image——one layer for each keypoint
+						</p>
+					</div>
+					<div class="image">
+						<img src="out/pt4_heatmap0.jpeg" alt="" />
+					</div>
+				</section>
+
+						<!-- Gallery -->
+							<div class="gallery style1 medium color4">
+								<article>
+									<a href="out/p4_train_heatmap0.jpeg" class="image">
+										<img src="out/p4_train_heatmap0.jpeg" alt="" />
+									</a>
+
+								</article>
+
+								<article>
+									<a href="out/pt4_train_heatmap1.jpeg" class="image">
+										<img src="out/pt4_train_heatmap1.jpeg" alt="" />
+									</a>
+
+								</article>
+
+								<article>
+									<a href="out/pt4_train_heatmap2.jpeg" class="image">
+										<img src="out/pt4_train_heatmap2.jpeg" alt="" />
+									</a>
+
+								</article>
+
+							</div>
+
+
+						<div class="banner style1 orient-left content-align-left image-position-center onscroll-image-fade-in invert color0" id="first">
+							<div class="content">
+								<h2>Model & Training</h2>
+								<p> For our classifier we used the pretrained <a href="https://pytorch.org/hub/pytorch_vision_fcn_resnet101/">
+									FCN-ResNet50 model.</a> We manually changed the number of classes to be 68.
+								Unfortunately, due to the lengthy time to generate heatmaps as well as the size of the model,
+								it took extremely long to train this model——a single epoch took 2 hours. As such, only two epochs were gathered. To the side
+								is a manually-constructed graph from data of two epochs, where the line with only three datapoints is the validation loss. One reason
+								the validation loss is lower than the test loss here islikely because the validation data is not augmented.</p>
+
+							</div>
+							<div class="image">
+								<img src="out/pt4_plot3.jpeg" alt="" />
+							</div>
+						</div>
+
+							<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>Despite the minimal training, the model learned some features. Here is a sample
+							  of its performance on the test set.</h3>
+						  </div>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style1 medium color1">
+								<article>
+									<a href="out/pt4_val0.jpeg" class="image">
+										<img src="out/pt4_val0.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>bottom</h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt4_val3.jpeg" class="image">
+										<img src="out/pt4_val3.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>bottom</h3>
+									</div>
+								</article>
+								<article>
+									<a href="out/pt4_val5.jpeg" class="image">
+										<img src="out/pt4_val5.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>bottom</h3>
+									</div>
+								</article>
+
+								<article>
+									<a href="out/pt4_val8.jpeg" class="image">
+										<img src="out/pt4_val8.jpeg" alt="" />
+									</a>
+									<div class="caption">
+										<h3>bottom</h3>
+									</div>
+								</article>
+
+							</div>
+
+					<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>Unfortunately, it appears our classifier only seems to know the mean face.
+							  Choosing two separate images at random and looking at the aggregate filter
+							  appears to verify this:</h3>
+						  </div>
+						</div>
+
+						<!-- Gallery -->
+							<div class="gallery style1 large color1">
+								<article>
+									<a href="out/pt4_heatmap0.jpeg" class="image">
+										<img src="out/pt4_heatmap0.jpeg" alt="" />
+									</a>
+
+								</article>
+
+								<article>
+									<a href="out/pt4_heatmap1.jpeg" class="image">
+										<img src="out/pt4_heatmap1.jpeg" alt="" />
+									</a>
+
+								</article>
+
+							</div>
+
+
+					<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						  <div class="content">
+							  <h3>Here is the classifier's predictions on a set of my images:</h3>
+						  </div>
+						</div>
+
+						<div class="spotlight style5 small  onload-image-fade-in onload-content-fade-right ">
+						  <div class="image">
+							<img src="out/pt4_my_collection.jpeg" alt="" />
+						  </div>
+						</div>
+
+
+					</section>
+
+				<!-- Part 5: Kaggle -->
+				<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						<div class="content">
+							<h2>Part 5: Kaggle Submission</h2>
+							<p> Given that my model in Part 3 found considerably more success, this is the one
+							I submitted for the class Kaggle competition. My username is VarunNealSrivastava
+								and my mean absolute error was 9.27039.</p>
+
+						</div>
+						</div>
+			<!-- Conclusion -->
+					<div class="spotlight style1 small invert color0 onload-image-fade-in onload-content-fade-right ">
+						<div class="content">
+							<h2>Conclusion</h2>
+							<p> Wow, training models is a lot of work! Tweaking the magic blackbox until it reports what
+							you want becomes extremely painful without a highly efficient workflow, as getting
+							even preliminary results about the performance of a model can take hours. This project
+							was definitely a learning experience. I really enjoyed the freedom we were given to use
+							pre-trained models.</p>
+
+						</div>
+						</div>
+
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
